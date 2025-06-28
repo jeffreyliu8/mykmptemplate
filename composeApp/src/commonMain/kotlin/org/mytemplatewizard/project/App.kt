@@ -12,10 +12,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.ui.NavDisplay
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kmpnav3.composeapp.generated.resources.Res
 import kmpnav3.composeapp.generated.resources.compose_multiplatform
+import org.mytemplatewizard.project.ui.ContentBlue
+import org.mytemplatewizard.project.ui.ContentGreen
 import org.mytemplatewizard.project.ui.theme.MyApplicationTheme
 
 @Composable
@@ -23,7 +27,8 @@ import org.mytemplatewizard.project.ui.theme.MyApplicationTheme
 fun App() {
     MyApplicationTheme {
         Scaffold {
-            ScaffoldContent()
+//            ScaffoldContent()
+            Navigation3SampleContent()
         }
     }
 }
@@ -49,4 +54,40 @@ fun ScaffoldContent() {
             }
         }
     }
+}
+
+data object RouteA
+
+data class RouteB(val id: String)
+
+@Preview
+@Composable
+fun Navigation3SampleContent() {
+    val backStack = remember { mutableStateListOf<Any>(RouteA) }
+
+    NavDisplay(
+        backStack = backStack,
+        onBack = { backStack.removeLastOrNull() },
+        entryProvider = { key ->
+            when (key) {
+                is RouteA -> NavEntry(key) {
+                    ContentGreen("Welcome to Nav3") {
+                        Button(onClick = {
+                            backStack.add(RouteB("123"))
+                        }) {
+                            Text("Click to navigate")
+                        }
+                    }
+                }
+
+                is RouteB -> NavEntry(key) {
+                    ContentBlue("Route id: ${key.id} ")
+                }
+
+                else -> {
+                    error("Unknown route: $key")
+                }
+            }
+        }
+    )
 }
