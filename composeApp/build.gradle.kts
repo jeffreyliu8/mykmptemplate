@@ -72,8 +72,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.material.icons.core)
             implementation(libs.adaptive)
-//            implementation(libs.adaptive.layout)
-//            implementation(libs.adaptive.navigation)
+            implementation(libs.adaptive.navigation)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
