@@ -64,12 +64,16 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
+            implementation(compose.material3AdaptiveNavigationSuite)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation(libs.navigation.compose)
+            implementation(libs.material.icons.core)
+            implementation(libs.adaptive)
+//            implementation(libs.adaptive.layout)
+//            implementation(libs.adaptive.navigation)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

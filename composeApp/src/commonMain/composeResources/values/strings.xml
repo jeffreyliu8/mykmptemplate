@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Cupcake</string>
+
+
+    <string name="main_screen_home">Home</string>
+    <string name="main_screen_history">History</string>
+    <string name="main_screen_settings">Settings</string>
+</resources>
