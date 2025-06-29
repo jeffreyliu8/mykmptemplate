@@ -10,9 +10,11 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import org.mytemplatewizard.project.repository.LoggerRepository
 import org.mytemplatewizard.project.repository.SampleRepository
 
 class MainViewModel(
+    private val logger: LoggerRepository,
     private val sampleRepository: SampleRepository,
 ) : ViewModel() {
 
@@ -20,6 +22,7 @@ class MainViewModel(
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
 
     init {
+        logger.d("MainViewModel init")
         observeFlows()
     }
 
@@ -34,6 +37,11 @@ class MainViewModel(
             }
             .flowOn(Dispatchers.Default)
             .launchIn(viewModelScope)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        logger.d("MainViewModel onCleared")
     }
 }
 

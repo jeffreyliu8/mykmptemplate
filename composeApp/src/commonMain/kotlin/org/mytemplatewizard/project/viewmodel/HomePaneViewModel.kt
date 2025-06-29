@@ -10,9 +10,11 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import org.mytemplatewizard.project.repository.LoggerRepository
 import org.mytemplatewizard.project.repository.SampleRepository
 
 class HomePaneViewModel(
+    private val logger: LoggerRepository,
     private val sampleRepository: SampleRepository,
 ) : ViewModel() {
 
@@ -20,6 +22,7 @@ class HomePaneViewModel(
     val uiState: StateFlow<HomePaneUiState> = _uiState.asStateFlow()
 
     init {
+        logger.d("HomePaneViewModel init")
         observeFlows()
     }
 
@@ -34,6 +37,11 @@ class HomePaneViewModel(
             }
             .flowOn(Dispatchers.Default)
             .launchIn(viewModelScope)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        logger.d("HomePaneViewModel onCleared")
     }
 }
 
