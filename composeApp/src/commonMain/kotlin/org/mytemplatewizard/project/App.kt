@@ -38,6 +38,7 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffo
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.mytemplatewizard.project.viewmodel.HomePaneViewModel
@@ -128,11 +129,13 @@ fun MainScreen(
             }
         }
     ) {
+        val historyNavController = rememberNavController()
         // Destination content.
         when (currentDestination) {
             AppDestinations.HOME -> HomePane()
             AppDestinations.HISTORY -> SampleHistoryScreen(
                 onBackPress = { currentDestination = AppDestinations.HOME },
+                navController = historyNavController,
             )
 
             AppDestinations.SETTINGS -> SampleSettingScreen(

@@ -83,6 +83,8 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
 
             implementation(libs.kermit)
+
+            implementation(libs.navigation.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

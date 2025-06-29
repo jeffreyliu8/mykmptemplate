@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 @Composable
 fun SampleSettingScreen(
     onBackPress: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     BackHandler { onBackPress() }
     Text("History Screen")

@@ -6,7 +6,9 @@ import org.mytemplatewizard.project.repository.LoggerRepository
 import org.mytemplatewizard.project.repository.LoggerRepositoryImpl
 import org.mytemplatewizard.project.repository.SampleRepository
 import org.mytemplatewizard.project.repository.SampleRepositoryImpl
+import org.mytemplatewizard.project.viewmodel.DetailViewModel
 import org.mytemplatewizard.project.viewmodel.HomePaneViewModel
+import org.mytemplatewizard.project.viewmodel.HomeViewModel
 import org.mytemplatewizard.project.viewmodel.MainViewModel
 
 //expect val platformModule: Module
@@ -19,4 +21,7 @@ val sharedModule = module {
     single<LoggerRepository> { LoggerRepositoryImpl() }
     viewModelOf(::HomePaneViewModel)
     viewModelOf(::MainViewModel)
+
+    viewModelOf(::HomeViewModel)
+    viewModelOf(::DetailViewModel)
 }
