@@ -1,5 +1,6 @@
 package org.mytemplatewizard.project.repository
 
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 
 
@@ -10,6 +11,7 @@ class SampleRepositoryImpl() : SampleRepository {
         while (true) {
             emit(i)
             i++
+            delay(1000)
         }
     }
 }
