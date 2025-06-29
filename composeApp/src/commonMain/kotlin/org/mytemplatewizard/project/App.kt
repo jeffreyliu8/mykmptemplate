@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.foundation.lazy.grid.LazyGridState
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -30,7 +28,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
@@ -40,9 +37,11 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaul
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
+import org.mytemplatewizard.project.viewmodel.HomePaneViewModel
+import org.mytemplatewizard.project.viewmodel.MainViewModel
 
 @Composable
 @Preview
@@ -89,9 +88,9 @@ enum class AppDestinations(
 
 @Composable
 fun MainScreen(
-//    viewModel: MainViewModel = koinViewModel()
+    viewModel: MainViewModel = koinViewModel()
 ) {
-//    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
     var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
 
     val myNavigationSuiteItemColors = NavigationSuiteDefaults.itemColors(
@@ -129,57 +128,31 @@ fun MainScreen(
             }
         }
     ) {
-//        val homeListState = rememberLazyGridState()
-//        // Destination content.
-//        when (currentDestination) {
-//            AppDestinations.HOME -> HomePane(homeListState = homeListState)
-////            AppDestinations.FAVORITES -> CupcakeApp()
-//            AppDestinations.HISTORY -> HomeHistoryScreen(
-//                events = uiState.history,
-//                onBackButtonClicked = { currentDestination = AppDestinations.HOME },
-//                onClearAllClicked = {
-//                    viewModel.deleteAllHistory()
-//                },
-//            )
-//
-//            AppDestinations.SETTINGS -> SettingsScreen(
-//                onBackPress = { currentDestination = AppDestinations.HOME },
-//            )
-//        }
+        // Destination content.
+        when (currentDestination) {
+            AppDestinations.HOME -> HomePane()
+            AppDestinations.HISTORY -> SampleHistoryScreen(
+                onBackPress = { currentDestination = AppDestinations.HOME },
+            )
+
+            AppDestinations.SETTINGS -> SampleSettingScreen(
+                onBackPress = { currentDestination = AppDestinations.HOME },
+            )
+        }
     }
 }
 
 
 
-@OptIn(
-    ExperimentalMaterial3AdaptiveApi::class,
-    ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class
-)
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 @Preview
 fun HomePane(
-//    viewModel: HomePaneViewModel = koinViewModel(),
-    homeListState: LazyGridState = rememberLazyGridState()
+    viewModel: HomePaneViewModel = koinViewModel(),
 ) {
-//    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
     val scaffoldNavigator = rememberListDetailPaneScaffoldNavigator<String>()
-    val scope = rememberCoroutineScope()
-
     val selectedItemKey = scaffoldNavigator.currentDestination?.contentKey
-//    var holder by rememberSaveable(stateSaver = DeviceActionWrapperSaver) {
-//        mutableStateOf(
-//            DeviceActionWrapper()
-//        )
-//    }
-
-//    BackHandler(enabled = scaffoldNavigator.canNavigateBack()) {
-////        holder = DeviceActionWrapper()
-//        scope.launch {
-//            scaffoldNavigator.navigateBack()
-//        }
-//    }
-
-
 
     Scaffold { innerPadding ->
         ListDetailPaneScaffold(
@@ -189,15 +162,13 @@ fun HomePane(
                 AnimatedPane(
                     modifier = Modifier.preferredWidth(600.dp)
                 ) {
-
-
+                    Text("home listPane ${uiState.sampleInt}")
                 }
             },
             detailPane = {
                 if (selectedItemKey != null) {
                     AnimatedPane(modifier = Modifier) {
-
-
+                        Text("home detailPane ${uiState.sampleInt}")
                     }
                 }
             },
