@@ -38,6 +38,7 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffo
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -91,7 +92,7 @@ enum class AppDestinations(
 fun MainScreen(
     viewModel: MainViewModel = koinViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
 
     val myNavigationSuiteItemColors = NavigationSuiteDefaults.itemColors(
@@ -153,7 +154,7 @@ fun MainScreen(
 fun HomePane(
     viewModel: HomePaneViewModel = koinViewModel(),
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scaffoldNavigator = rememberListDetailPaneScaffoldNavigator<String>()
     val selectedItemKey = scaffoldNavigator.currentDestination?.contentKey
 

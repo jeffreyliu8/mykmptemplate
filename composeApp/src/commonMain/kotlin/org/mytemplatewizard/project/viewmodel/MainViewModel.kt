@@ -10,12 +10,15 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import org.mytemplatewizard.project.repository.LoggerRepository
+import org.mytemplatewizard.project.repository.SampleKtorRepository
 import org.mytemplatewizard.project.repository.SampleRepository
 
 class MainViewModel(
     private val logger: LoggerRepository,
     private val sampleRepository: SampleRepository,
+    private val sampleKtorRepository: SampleKtorRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MainUiState())
@@ -24,6 +27,7 @@ class MainViewModel(
     init {
         logger.d("MainViewModel init")
         observeFlows()
+        testMakeHttpRequest()
     }
 
     private fun observeFlows() {
@@ -37,6 +41,17 @@ class MainViewModel(
             }
             .flowOn(Dispatchers.Default)
             .launchIn(viewModelScope)
+    }
+
+    private fun testMakeHttpRequest() {
+        viewModelScope.launch {
+            val result = sampleKtorRepository.searchGithubRepos("square")
+            if (result.isSuccess) {
+                logger.d("HTTP request successful: ${result.getOrNull()?.totalCount}")
+            } else {
+                logger.e("HTTP request failed: ${result.exceptionOrNull()?.message}")
+            }
+        }
     }
 
     override fun onCleared() {
