@@ -29,22 +29,17 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
-import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
-import androidx.compose.material3.adaptive.layout.AnimatedPane
-import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
-import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.mytemplatewizard.project.ui.history.SampleHistoryScreen
+import org.mytemplatewizard.project.ui.home.HomePane
 import org.mytemplatewizard.project.ui.settings.SampleSettingScreen
-import org.mytemplatewizard.project.viewmodel.HomePaneViewModel
 import org.mytemplatewizard.project.viewmodel.MainViewModel
 
 @Composable
@@ -145,39 +140,5 @@ fun MainScreen(
                 onBackPress = { currentDestination = AppDestinations.HOME },
             )
         }
-    }
-}
-
-
-
-@OptIn(ExperimentalMaterial3AdaptiveApi::class)
-@Composable
-@Preview
-fun HomePane(
-    viewModel: HomePaneViewModel = koinViewModel(),
-) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val scaffoldNavigator = rememberListDetailPaneScaffoldNavigator<String>()
-    val selectedItemKey = scaffoldNavigator.currentDestination?.contentKey
-
-    Scaffold { innerPadding ->
-        ListDetailPaneScaffold(
-            directive = scaffoldNavigator.scaffoldDirective,
-            value = scaffoldNavigator.scaffoldValue,
-            listPane = {
-                AnimatedPane(
-                    modifier = Modifier.preferredWidth(600.dp)
-                ) {
-                    Text("home listPane ${uiState.sampleInt}")
-                }
-            },
-            detailPane = {
-                if (selectedItemKey != null) {
-                    AnimatedPane(modifier = Modifier) {
-                        Text("home detailPane ${uiState.sampleInt}")
-                    }
-                }
-            },
-        )
     }
 }
