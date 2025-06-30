@@ -42,6 +42,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import org.mytemplatewizard.project.ui.history.SampleHistoryScreen
+import org.mytemplatewizard.project.ui.settings.SampleSettingScreen
 import org.mytemplatewizard.project.viewmodel.HomePaneViewModel
 import org.mytemplatewizard.project.viewmodel.MainViewModel
 

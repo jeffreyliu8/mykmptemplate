@@ -1,4 +1,4 @@
-package org.mytemplatewizard.project
+package org.mytemplatewizard.project.ui.history
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController

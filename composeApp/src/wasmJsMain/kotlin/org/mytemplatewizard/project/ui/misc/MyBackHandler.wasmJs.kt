@@ -1,8 +1,7 @@
-package org.mytemplatewizard.project
+package org.mytemplatewizard.project.ui.misc
 
 import androidx.compose.runtime.Composable
 
 @Composable
 actual fun BackHandler(enabled: Boolean, onBack: () -> Unit) {
-    androidx.activity.compose.BackHandler(enabled = enabled, onBack = onBack)
 }

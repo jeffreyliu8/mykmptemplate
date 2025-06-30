@@ -1,4 +1,4 @@
-package org.mytemplatewizard.project
+package org.mytemplatewizard.project.ui.misc
 
 import androidx.compose.runtime.Composable
 
