@@ -27,3 +27,7 @@
 # Keep classes annotated with Koin annotations
 -keep @org.koin.core.annotation.* class * { *; }
 # end of koin
+
+# start of room, from https://developer.android.com/kotlin/multiplatform/room
+-keep class * extends androidx.room.RoomDatabase { <init>(); }
+# end of room
