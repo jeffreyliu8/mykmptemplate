@@ -1,7 +1,9 @@
 package org.mytemplatewizard.project.repository
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 
 class SampleRepositoryImpl() : SampleRepository {
@@ -13,5 +15,5 @@ class SampleRepositoryImpl() : SampleRepository {
             i++
             delay(1000)
         }
-    }
+    }.flowOn(Dispatchers.Default)
 }
