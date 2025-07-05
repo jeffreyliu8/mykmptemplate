@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,6 +14,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.mytemplatewizard.project.database.AppDatabase
+import org.mytemplatewizard.project.model.Fruittie
 import org.mytemplatewizard.project.repository.LoggerRepository
 import org.mytemplatewizard.project.repository.SampleKtorRepository
 import org.mytemplatewizard.project.repository.SampleRepository
@@ -21,7 +24,10 @@ class MainViewModel(
     private val logger: LoggerRepository,
     private val sampleRepository: SampleRepository,
     private val sampleKtorRepository: SampleKtorRepository,
+    private var database: AppDatabase,
 ) : ViewModel() {
+
+    fun loadData(): Flow<List<Fruittie>> = database.fruittieDao().getAllAsFlow()
 
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
@@ -41,6 +47,13 @@ class MainViewModel(
                     )
                 }
             }
+            .flowOn(Dispatchers.Default)
+            .launchIn(viewModelScope)
+
+
+        loadData().onEach { fruity ->
+            logger.d("Fruittie count: ${fruity.size}")
+        }
             .flowOn(Dispatchers.Default)
             .launchIn(viewModelScope)
     }
