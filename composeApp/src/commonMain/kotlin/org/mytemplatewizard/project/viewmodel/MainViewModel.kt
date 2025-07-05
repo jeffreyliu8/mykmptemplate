@@ -2,6 +2,8 @@ package org.mytemplatewizard.project.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -62,4 +64,5 @@ class MainViewModel(
 
 data class MainUiState(
     val sampleInt: Int = 0,
+    val fakeList: ImmutableList<Int> = emptyList<Int>().toImmutableList(),
 )
