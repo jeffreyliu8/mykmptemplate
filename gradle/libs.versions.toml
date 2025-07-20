@@ -5,7 +5,7 @@ android-minSdk = "24"
 android-targetSdk = "36"
 androidx-activity = "1.10.1"
 androidx-lifecycle = "2.9.1"
-composeHotReload = "1.0.0-beta03"
+composeHotReload = "1.0.0-beta04"
 composeMultiplatform = "1.8.2"
 kermit = "2.0.6"
 kotlin = "2.2.0"
@@ -15,7 +15,7 @@ kotlinxCollectionsImmutable = "0.4.0"
 navigationCompose = "2.9.0-beta03"
 materialIconsCore = "1.7.3"
 koin-bom = "4.1.0"
-ktor = "3.2.1"
+ktor = "3.2.2"
 
 [libraries]
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
