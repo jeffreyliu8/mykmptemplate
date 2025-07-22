@@ -34,6 +34,10 @@ class HomePaneViewModel(
                         sampleInt = history
                     )
                 }
+                println("getSettings: ${   sampleRepository.getSettings()}")
+                if (history > 10) {
+                    sampleRepository.setSetting(history.toString())
+                }
             }
             .flowOn(Dispatchers.Default)
             .launchIn(viewModelScope)
