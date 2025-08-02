@@ -1,5 +1,5 @@
 [versions]
-agp = "8.11.1"
+agp = "8.12.0"
 android-compileSdk = "36"
 android-minSdk = "24"
 android-targetSdk = "36"
@@ -12,10 +12,10 @@ kotlin = "2.2.0"
 kotlinx-coroutines = "1.10.2"
 adaptive = "1.1.2"
 kotlinxCollectionsImmutable = "0.4.0"
-navigationCompose = "2.9.0-beta03"
+navigationCompose = "2.9.0-beta04"
 materialIconsCore = "1.7.3"
 koin-bom = "4.1.0"
-ktor = "3.2.2"
+ktor = "3.2.3"
 
 [libraries]
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
