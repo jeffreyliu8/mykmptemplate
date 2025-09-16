@@ -15,7 +15,7 @@ kotlinxCollectionsImmutable = "0.4.0"
 navigationCompose = "2.9.0-rc01"
 materialIconsCore = "1.7.3"
 koin-bom = "4.1.1"
-ktor = "3.2.3"
+ktor = "3.3.0"
 
 [libraries]
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
