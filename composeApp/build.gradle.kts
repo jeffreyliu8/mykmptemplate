@@ -71,9 +71,10 @@ kotlin {
             implementation(compose.material3AdaptiveNavigationSuite)
             implementation(compose.ui)
             implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
+            implementation(compose.preview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.androidx.lifecycle.viewmodel.nav3)
             implementation(libs.material.icons.core)
 
             implementation(libs.adaptive)
@@ -87,6 +88,7 @@ kotlin {
             implementation(libs.kermit)
 
             implementation(libs.navigation.compose)
+            implementation(libs.navigation3)
 
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
