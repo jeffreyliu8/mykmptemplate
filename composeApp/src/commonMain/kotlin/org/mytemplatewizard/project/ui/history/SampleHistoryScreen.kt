@@ -7,26 +7,20 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
-import org.mytemplatewizard.project.ui.misc.BackHandler
 
 @Composable
 fun SampleHistoryScreen(
-    onBackPress: () -> Unit = {},
     modifier: Modifier = Modifier,
-    navController: NavHostController,
 ) {
-    BackHandler { onBackPress() }
-
-    Scaffold { innerPadding ->
+    Scaffold(modifier = modifier) { innerPadding ->
         Column {
             Button(
-                onClick = { onBackPress() },
+                onClick = { },
                 modifier = Modifier.padding(innerPadding)
             ) {
-                Text("Back to Home")
+                Text("do nothing")
             }
-            SetupNavGraph(navController = navController)
+//            SetupNavGraph(navController = navController)
         }
     }
 }

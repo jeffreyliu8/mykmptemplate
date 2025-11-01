@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -34,7 +33,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.compose.rememberNavController
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
+import androidx.navigation3.ui.NavDisplay
+import androidx.savedstate.serialization.SavedStateConfiguration
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.mytemplatewizard.project.ui.history.SampleHistoryScreen
@@ -46,17 +54,15 @@ import org.mytemplatewizard.project.viewmodel.MainViewModel
 @Preview
 fun App() {
     MyApplicationTheme {
-        Scaffold {
-//            ScaffoldContent()
-            MainScreen()
-        }
+//        OldDefaultComposeContent()
+        MainScreen()
     }
 }
 
 @Preview
 @Composable
-fun ScaffoldContent() {
-    var showContent by remember { mutableStateOf(false) }
+private fun OldDefaultComposeContent() {
+    var showContent by rememberSaveable { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .safeContentPadding()
@@ -67,7 +73,7 @@ fun ScaffoldContent() {
             Text("Click me!")
         }
         AnimatedVisibility(showContent) {
-            val greeting = remember { Greeting().greet() }
+            val greeting = rememberSaveable { Greeting().greet() }
             Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
                 Image(painterResource(Res.drawable.compose_multiplatform), null)
                 Text("Compose: $greeting")
@@ -79,18 +85,40 @@ fun ScaffoldContent() {
 enum class AppDestinations(
     val label: StringResource,
     val icon: ImageVector,
+    val route: NavKey,
 ) {
-    HOME(Res.string.main_screen_home, Icons.Default.Home),
-    HISTORY(Res.string.main_screen_history, Icons.Default.DateRange),
-    SETTINGS(Res.string.main_screen_settings, Icons.Default.Settings),
+    HOME(Res.string.main_screen_home, Icons.Default.Home, RouteA),
+    HISTORY(Res.string.main_screen_history, Icons.Default.DateRange, RouteB),
+    SETTINGS(Res.string.main_screen_settings, Icons.Default.Settings, RouteC),
+}
+
+
+@Serializable
+private data object RouteA : NavKey
+
+@Serializable
+private data object RouteB : NavKey
+
+@Serializable
+private data object RouteC : NavKey
+
+private val config = SavedStateConfiguration {
+    serializersModule = SerializersModule {
+        polymorphic(NavKey::class) {
+            subclass(RouteA::class, RouteA.serializer())
+            subclass(RouteB::class, RouteB.serializer())
+            subclass(RouteC::class, RouteC.serializer())
+        }
+    }
 }
 
 @Composable
 fun MainScreen(
     viewModel: MainViewModel = koinViewModel()
 ) {
+    val topLevelBackStack = rememberNavBackStack(config, RouteA)
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
 
     val myNavigationSuiteItemColors = NavigationSuiteDefaults.itemColors(
         navigationBarItemColors = NavigationBarItemDefaults.colors(
@@ -101,7 +129,7 @@ fun MainScreen(
 
 //    val adaptiveInfo = currentWindowAdaptiveInfo()
 //    val customNavSuiteType = with(adaptiveInfo) {
-//        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) {
+//        if (windowSizeClass.isWidthAtLeastBreakpoint(WIDTH_DP_EXPANDED_LOWER_BOUND)) {
 //            NavigationSuiteType.NavigationDrawer
 //        } else {
 //            NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(adaptiveInfo)
@@ -120,25 +148,37 @@ fun MainScreen(
                         )
                     },
                     label = { Text(stringResource(it.label)) },
-                    selected = it == currentDestination,
-                    onClick = { currentDestination = it },
+                    selected = it.route == topLevelBackStack.lastOrNull(),
+                    onClick = { topLevelBackStack.add(it.route) },
                     colors = myNavigationSuiteItemColors,
                 )
             }
         }
     ) {
-        val historyNavController = rememberNavController()
-        // Destination content.
-        when (currentDestination) {
-            AppDestinations.HOME -> HomePane()
-            AppDestinations.HISTORY -> SampleHistoryScreen(
-                onBackPress = { currentDestination = AppDestinations.HOME },
-                navController = historyNavController,
-            )
-
-            AppDestinations.SETTINGS -> SampleSettingScreen(
-                onBackPress = { currentDestination = AppDestinations.HOME },
-            )
-        }
+        NavDisplay(
+            backStack = topLevelBackStack,
+            onBack = { topLevelBackStack.removeLastOrNull() },
+            // In order to add the `ViewModelStoreNavEntryDecorator` (see comment below for why)
+            // we also need to add the default `NavEntryDecorator`s as well. These provide
+            // extra information to the entry's content to enable it to display correctly
+            // and save its state.
+            entryDecorators = listOf(
+                rememberSaveableStateHolderNavEntryDecorator(),
+                rememberViewModelStoreNavEntryDecorator()
+            ),
+            entryProvider = entryProvider {
+                entry<RouteA> {
+                    HomePane()
+                }
+                entry<RouteB> {
+                    SampleHistoryScreen()
+                }
+                entry<RouteC> {
+                    SampleSettingScreen()
+                }
+            },
+        )
     }
 }
+
+//https://github.com/terrakok/nav3-recipes/blob/6c7590c980898fe269484f6fda3800c45c46d7ee/composeApp/src/commonMain/kotlin/org/company/app/commonui/CommonUiCase.kt

@@ -87,7 +87,6 @@ kotlin {
 
             implementation(libs.kermit)
 
-            implementation(libs.navigation.compose)
             implementation(libs.navigation3)
 
             implementation(libs.ktor.client.core)
