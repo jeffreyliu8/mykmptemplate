@@ -7,6 +7,7 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import org.mytemplatewizard.project.repository.LoggerRepository
@@ -20,13 +21,13 @@ import org.mytemplatewizard.project.viewmodel.HomePaneViewModel
 import org.mytemplatewizard.project.viewmodel.HomeViewModel
 import org.mytemplatewizard.project.viewmodel.MainViewModel
 
-//expect val platformModule: Module
+expect val platformModule: Module
 
 val sharedModule = module {
 //    singleOf(::AlarmControlRepository)
 //    single<FirebaseDatabaseRepository> { FirebaseDatabaseRepositoryImpl() }
 //    single<DeviceActionRepository> { DeviceActionRepositoryImpl(get(), get(),get()) }
-    single<SampleRepository> { SampleRepositoryImpl() }
+    single<SampleRepository> { SampleRepositoryImpl(get()) }
     single<LoggerRepository> { LoggerRepositoryImpl() }
     single {
         HttpClient {

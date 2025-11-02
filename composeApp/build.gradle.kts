@@ -63,6 +63,7 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
             implementation(libs.ktor.client.okhttp)
+            implementation("androidx.preference:preference:1.2.0")
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -96,6 +97,8 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.collections.immutable)
+
+            implementation("com.russhwolf:multiplatform-settings:1.3.0")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
