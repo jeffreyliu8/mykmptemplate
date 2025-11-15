@@ -1,22 +1,21 @@
 [versions]
-agp = "8.13.0"
+agp = "8.13.1"
 android-compileSdk = "36"
 android-minSdk = "24"
 android-targetSdk = "36"
 androidx-activity = "1.11.0"
-androidx-nav3 = "1.0.0-alpha03"
-androidx-lifecycle = "2.10.0-alpha03"
-composeHotReload = "1.0.0-rc02"
-composeMultiplatform = "1.10.0-alpha03"
+androidx-nav3 = "1.0.0-alpha04"
+androidx-lifecycle = "2.10.0-alpha04"
+composeHotReload = "1.0.0-rc03"
+composeMultiplatform = "1.10.0-beta01"
 kermit = "2.0.8"
 kotlin = "2.2.21"
 kotlinx-coroutines = "1.10.2"
 adaptive = "1.2.0"
 kotlinxCollectionsImmutable = "0.4.0"
-#navigationCompose = "2.9.1"
 materialIconsCore = "1.7.3"
 koin-bom = "4.1.1"
-ktor = "3.3.1"
+ktor = "3.3.2"
 
 [libraries]
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
@@ -41,7 +40,6 @@ koin-core =                 { module = "io.insert-koin:koin-core" }
 koin-compose =              { module = "io.insert-koin:koin-compose" }
 koin-compose-viewmodel =    { module = "io.insert-koin:koin-compose-viewmodel" }
 
-#navigation-compose =    { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 navigation3 =           { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "androidx-nav3" }
 ktor-client-core =                  { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-cio =                   { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
