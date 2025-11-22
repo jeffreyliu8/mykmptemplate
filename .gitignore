@@ -5,3 +5,4 @@
 /build/
 /kotlin-js-store/wasm/yarn.lock
 /local.properties
+/kotlin-js-store/yarn.lock
