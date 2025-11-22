@@ -12,16 +12,20 @@ import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaf
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigationevent.NavigationEventInfo
+import androidx.navigationevent.compose.NavigationEventHandler
+import androidx.navigationevent.compose.rememberNavigationEventState
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.mytemplatewizard.project.viewmodel.HomePaneViewModel
 
 
-@OptIn(ExperimentalMaterial3AdaptiveApi::class)
+@OptIn(ExperimentalMaterial3AdaptiveApi::class, ExperimentalComposeUiApi::class)
 @Composable
 @Preview
 fun HomePane(
@@ -60,6 +64,16 @@ fun HomePane(
             detailPane = {
                 if (selectedItemKey != null) {
                     AnimatedPane(modifier = Modifier) {
+                        NavigationEventHandler(
+                            state = rememberNavigationEventState(currentInfo = NavigationEventInfo.None),
+                            isBackEnabled = scaffoldNavigator.currentDestination?.pane == ListDetailPaneScaffoldRole.Detail,
+                        ) {
+                            scope.launch {
+                                scaffoldNavigator.navigateTo(
+                                    ListDetailPaneScaffoldRole.List, null
+                                )
+                            }
+                        }
                         LazyColumn(
                             contentPadding = innerPadding
                         ) {
