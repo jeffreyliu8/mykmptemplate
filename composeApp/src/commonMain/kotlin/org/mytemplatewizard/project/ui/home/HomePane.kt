@@ -1,17 +1,22 @@
 package org.mytemplatewizard.project.ui.home
 
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.mytemplatewizard.project.viewmodel.HomePaneViewModel
 
@@ -25,6 +30,7 @@ fun HomePane(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scaffoldNavigator = rememberListDetailPaneScaffoldNavigator<String>()
     val selectedItemKey = scaffoldNavigator.currentDestination?.contentKey
+    val scope = rememberCoroutineScope()
 
     Scaffold { innerPadding ->
         ListDetailPaneScaffold(
@@ -34,13 +40,36 @@ fun HomePane(
                 AnimatedPane(
                     modifier = Modifier.preferredWidth(600.dp)
                 ) {
-                    Text("home listPane ${uiState.sampleInt}")
+                    LazyColumn(
+                        contentPadding = innerPadding
+                    ) {
+                        items(100) { index ->
+                            Button(onClick = {
+                                scope.launch {
+                                    scaffoldNavigator.navigateTo(
+                                        ListDetailPaneScaffoldRole.Detail, index.toString()
+                                    )
+                                }
+                            }) {
+                                Text("Item $index")
+                            }
+                        }
+                    }
                 }
             },
             detailPane = {
                 if (selectedItemKey != null) {
                     AnimatedPane(modifier = Modifier) {
-                        Text("home detailPane ${uiState.sampleInt}")
+                        LazyColumn(
+                            contentPadding = innerPadding
+                        ) {
+                            item {
+                                Text("home detailPane counting number ${uiState.sampleInt}")
+                            }
+                            item {
+                                Text("home detailPane $selectedItemKey")
+                            }
+                        }
                     }
                 }
             },
