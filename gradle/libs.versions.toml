@@ -13,6 +13,7 @@ kotlin = "2.2.21"
 kotlinx-coroutines = "1.10.2"
 adaptive = "1.2.0"
 kotlinxCollectionsImmutable = "0.4.0"
+kotlinSerialization = "1.9.0"
 materialIconsCore = "1.7.3"
 koin-bom = "4.1.1"
 ktor = "3.3.2"
@@ -48,7 +49,7 @@ ktor-client-darwin =                { module = "io.ktor:ktor-client-darwin", ver
 ktor-client-logging =               { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-content-negotiation =   { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization-kotlinx-json =   { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.9.0" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
